@@ -102,6 +102,8 @@ void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
 
 // - unmap a segment from memory
 void rvm_unmap(rvm_t rvm, void *segbase){
+    
+    rvm = rvm_global;
 
     // Check if any segment is mapped to address segbase. If not, nothing to delete
     if (rvm.list_of_segments.find(segbase) != rvm.list_of_segments.end()) {
