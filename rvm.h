@@ -34,11 +34,12 @@ typedef struct Transaction{
 
 map<trans_t,txn> list_of_transactions;      // Map of TID and TXN
 
-typedef struct RVM_T{
+typedef struct RVM{
     char *directory;    // Directory where all files are stored
-    map<void**, segname_struct> list_of_segments;   // <Segbase, segname_struct>
-    map<char*,void**> list_of_segname_segbase;     // <Segname, Segbase>
-}rvm_t;
+    map<void*, segname_struct> list_of_segments;   // <Segbase, segname_struct>
+    map<char*,void*> list_of_segname_segbase;     // <Segname, Segbase>
+} rvm_t;
+
 
 /*
 Initialize all RVM_T data structures and start Alarm to run through Redo Logs
