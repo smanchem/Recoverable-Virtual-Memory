@@ -15,7 +15,7 @@ typedef struct Segment_Name{
     char *name;
 }segname_struct;
 
-typedef struct long int trans_t;
+typedef long int trans_t;
 
 typedef struct Change{
     long int start_addr;
@@ -29,9 +29,9 @@ typedef struct Transaction{
     char* undo_log;
     map modified_segments<char*,list<change>>;  //segname, list_of_changes
     map list_of_segments<void*, char*>;         //segbase, segname
-}trans;
+}txn;
 
-map list_of_transactions<int,trans>;
+map list_of_transactions<trans_t,txn>;
 
 typedef struct RVM_T{
     char *directory;
