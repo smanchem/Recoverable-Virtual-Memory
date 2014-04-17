@@ -33,7 +33,6 @@ rvm_t rvm_init(const char *directory){
     else printf("\nDirectory already exists");
     
     /* Initialize the time interval for Log Truncation */
-    long int period = 100000;
     struct itimerval it;
     struct sigaction act, oact;
     long sec = period/1000000;
@@ -48,12 +47,10 @@ rvm_t rvm_init(const char *directory){
     act.sa_flags = 0;
     sigaction (SIGPROF, &act, &oact);
 
-printf("\n Starting timer \n");
-
+//printf("Starting timer\n");
     /* Start timer */
     setitimer (ITIMER_PROF, &it, NULL);
-
-printf("Timer started \n");
+//printf("Timer started \n");
          
     return rvm;
 }
@@ -119,16 +116,6 @@ void rvm_abort_trans(trans_t tid){
 		
 // - play through any committed or aborted items in the log file(s) and shrink the log file(s) as much as possible.
 void rvm_truncate_log(rvm_t rvm){
-    /*
-    Block SIG_BLOCK signal while Truncating Logs
-    */
-    sigset_t new, old;
-    sigemptyset (&new);
-    sigaddset (&new, SIGPROF);
-    sigprocmask(SIG_BLOCK, &new, &old);
 
-// Truncate Logs
-
-    /* Unblock SIG_BLOCK signal */	
-    sigprocmask(SIG_SETMASK, &old, NULL);				
+				
 }

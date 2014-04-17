@@ -28,8 +28,8 @@ typedef struct Transaction{
     trans_t tid;        // Transaction ID
     char *redo_log;     // Redo File Name
     char *undo_log;     // Undo Directory Name
-    map<char*,list<change> > modified_segments;  //segname, list_of_changes
-    map<void*, char*> list_of_segments;         //segbase, segname
+    map<char *,list<change> > modified_segments;  //segname, list_of_changes
+    map<void *, char *> list_of_segments;         //segbase, segname
 }txn;
 
 map<trans_t,txn> list_of_transactions;      // Map of TID and TXN
