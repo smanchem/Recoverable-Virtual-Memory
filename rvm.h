@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <vector>
 #include <map>
+#include <list>
 
 using namespace std;
 
@@ -27,16 +28,16 @@ typedef struct Transaction{
     trans_t tid;
     char* redo_log;
     char* undo_log;
-    map modified_segments<char*,list<change>>;  //segname, list_of_changes
-    map list_of_segments<void*, char*>;         //segbase, segname
+    map<char*,list<change> > modified_segments;  //segname, list_of_changes
+    map<void*, char*> list_of_segments;         //segbase, segname
 }txn;
 
-map list_of_transactions<trans_t,txn>;
+map<trans_t,txn> list_of_transactions;
 
 typedef struct RVM_T{
     char *directory;
-    map list_of_segments<void*, segname_struct>;
-    map list_of_segname_segbase<char*,void*>;
+    map<void*, segname_struct> list_of_segments;
+    map<char*,void*> list_of_segname_segbase;
 }rvm_t;
 
 
