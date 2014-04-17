@@ -9,7 +9,11 @@
 using namespace std;
 
 
-//- Initialize the library with the specified directory as backing store.
+/*
+    Initialize the library with the specified directory as backing store.
+    Initialize Data Structures needed to maintain persistent virtual memory.
+    Create an Alarm which runs through the ReDo Logs.
+*/
 rvm_t rvm_init(const char *directory){
     struct stat status;
     
