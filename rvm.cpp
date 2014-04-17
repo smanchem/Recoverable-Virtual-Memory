@@ -11,25 +11,37 @@ using namespace std;
 
 //- Initialize the library with the specified directory as backing store.
 rvm_t rvm_init(const char *directory){
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
+    struct stat status;
+    
+    rvm_t rvm;
+    strcpy(rvm.directory,directory);
+    
+    if(stat(directory,&status) < 0){
+        char dir[1000];
+        strcpy(dir, "mkdir ");
+        strcat(dir,directory);
+        system(dir);
+    }
+    else printf("\nDirectory already exists");
+    
+    return rvm;
 }
 
 
 //map a segment from disk into memory. If the segment does not already exist, then create it and give it size size_to_create. If the segment exists but is shorter than size_to_create, then extend it until it is long enough. It is an error to try to map the same segment twice.
 void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
+    rvm_truncate_log(rvm);
+    char temp[1000];
+    struct stat status;
+    strcpy(temp,rvm->directory);
+    strcat(temp,"/");
+    strcat(temp,segname);
+    if(stat(temp,&status) < 0){
+        //doesn't exist
+        
+    }else{
+        
+
 
 }				
 			
