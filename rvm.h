@@ -19,7 +19,7 @@ typedef struct Segment_Name{
 typedef long int trans_t;
 
 typedef struct Change{
-    long int start_addr;
+    long int offset;
     int size_modified;
 }change;
 
