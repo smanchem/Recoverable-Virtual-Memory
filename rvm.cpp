@@ -39,7 +39,7 @@ void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
     char temp[1000];
     struct stat status;
     char *name;
-    
+    void **addr1;
     strcpy(name,segname);
 
     strcpy(temp,rvm.directory);
@@ -49,12 +49,13 @@ void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
         //doesn't exist
         printf("\n in here");printf("\n in here");
         void *addr = malloc(size_to_create);
+        *addr1 = addr;
         segname_struct segn;
         segn.size = size_to_create;
         strcpy(segn.name,segname);
         
-        rvm.list_of_segments.insert(pair<void*,segname_struct>(addr,segn));
-        rvm.list_of_segname_segbase.insert(pair<char*,void*>(name,addr));
+        rvm.list_of_segments.insert(pair<void**,segname_struct>(addr1,segn));
+        rvm.list_of_segname_segbase.insert(pair<char*,void**>(name,addr1));
 
         stat(temp,&status);
         
@@ -74,7 +75,7 @@ void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
                         
     }else{
           printf("\n in here1");printf("\n in here1");
-          map<char*,void*>::iterator it = rvm.list_of_segname_segbase.end();
+          map<char*,void**>::iterator it = rvm.list_of_segname_segbase.end();
           //make sure it is not already mapped.
           if(rvm.list_of_segname_segbase.find(name) != it){
               printf("\nError! Segment is already mapped. Returning\n");
@@ -82,12 +83,13 @@ void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
           }
           
           void *addr = malloc(size_to_create);
+          *addr1 = addr;
           segname_struct segn;
           segn.size = size_to_create;
           strcpy(segn.name,segname);
 
-          rvm.list_of_segments.insert(pair<void*,segname_struct>(addr,segn));
-          rvm.list_of_segname_segbase.insert(pair<char*,void*>(name,addr));
+          rvm.list_of_segments.insert(pair<void**,segname_struct>(addr1,segn));
+          rvm.list_of_segname_segbase.insert(pair<char*,void**>(name,addr1));
 
           //stat(temp,&status);
           
@@ -109,7 +111,7 @@ void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
 
 // - unmap a segment from memory
 void rvm_unmap(rvm_t rvm, void *segbase){
-
+    //map<char*,void*>::iterator it = rvm.list_of_segments.end();
 
 }
 

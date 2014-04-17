@@ -29,15 +29,15 @@ typedef struct Transaction{
     char *redo_log;     // Redo File Name
     char *undo_log;     // Undo Directory Name
     map<char*,list<change> > modified_segments;  //segname, list_of_changes
-    map<void*, char*> list_of_segments;         //segbase, segname
+    map<void**, char*> list_of_segments;         //segbase, segname
 }txn;
 
 map<trans_t,txn> list_of_transactions;      // Map of TID and TXN
 
 typedef struct RVM_T{
     char *directory;    // Directory where all files are stored
-    map<void *, segname_struct> list_of_segments;   // <Segbase, segname_struct>
-    map<char *,void *> list_of_segname_segbase;     // <Segname, Segbase>
+    map<void**, segname_struct> list_of_segments;   // <Segbase, segname_struct>
+    map<char*,void**> list_of_segname_segbase;     // <Segname, Segbase>
 }rvm_t;
 
 /*
