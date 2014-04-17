@@ -100,8 +100,9 @@ void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
 
 // - unmap a segment from memory
 void rvm_unmap(rvm_t rvm, void *segbase){
-    //map<char*,void*>::iterator it = rvm.list_of_segments.end();
-
+    map<void**,segname_struct>::iterator it = rvm.list_of_segments.end();
+    if(rvm.list_of_segments.find(&segbase) != it){
+	printf("\nError! Segment  
 }
 
 
