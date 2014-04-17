@@ -35,18 +35,75 @@ rvm_t rvm_init(const char *directory){
 //map a segment from disk into memory. If the segment does not already exist, then create it and give it size size_to_create. If the segment exists but is shorter than size_to_create, then extend it until it is long enough. It is an error to try to map the same segment twice.
 void *rvm_map(rvm_t rvm, const char *segname, int size_to_create){
     rvm_truncate_log(rvm);
+
     char temp[1000];
     struct stat status;
-    strcpy(temp,rvm->directory);
+    char *name;
+    
+    strcpy(name,segname);
+
+    strcpy(temp,rvm.directory);
     strcat(temp,"/");
     strcat(temp,segname);
     if(stat(temp,&status) < 0){
         //doesn't exist
+        printf("\n in here");printf("\n in here");
+        void *addr = malloc(size_to_create);
+        segname_struct segn;
+        segn.size = size_to_create;
+        strcpy(segn.name,segname);
         
+        rvm.list_of_segments.insert(pair<void*,segname_struct>(addr,segn));
+        rvm.list_of_segname_segbase.insert(pair<char*,void*>(name,addr));
+
+        stat(temp,&status);
+        
+        int fd = open(temp, O_RDWR|O_CREAT|O_EXCL, 777); //Create and open a file with file name temp
+        if(fd < 0){
+            printf("\nError in creating and opening file. Returning\n");
+            return NULL;
+        }
+        
+        if(lseek(fd, size_to_create, SEEK_SET) < 0){    //Expand size of file to "size_to_create" bytes
+            close(fd);
+            printf("\nError in taking cursor to end of file! Returning\n");
+            return NULL;
+        }
+        
+        return addr;
+                        
     }else{
-        
+          printf("\n in here1");printf("\n in here1");
+          map<char*,void*>::iterator it = rvm.list_of_segname_segbase.end();
+          //make sure it is not already mapped.
+          if(rvm.list_of_segname_segbase.find(name) != it){
+              printf("\nError! Segment is already mapped. Returning\n");
+              return NULL;
+          }
+          
+          void *addr = malloc(size_to_create);
+          segname_struct segn;
+          segn.size = size_to_create;
+          strcpy(segn.name,segname);
 
+          rvm.list_of_segments.insert(pair<void*,segname_struct>(addr,segn));
+          rvm.list_of_segname_segbase.insert(pair<char*,void*>(name,addr));
 
+          //stat(temp,&status);
+          
+          int fd = open(temp, O_RDWR);
+          if(fd < 0){
+            printf("\nError in opening file. Returning\n");
+            return NULL;
+          }
+          
+          if(lseek(fd, size_to_create, SEEK_END) < 0){
+            close(fd);
+            printf("\nError in taking cursor to end of file! Returning\n");
+            return NULL;
+          }
+          return addr;
+    }
 }				
 			
 
